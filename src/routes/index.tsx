@@ -15,19 +15,77 @@ import progPredicas from "@/assets/program-predicas.jpg";
 import progJovenes from "@/assets/program-jovenes.jpg";
 import progEnlacePlus from "@/assets/program-enlaceplus.jpg";
 import enlaceLogo from "@/assets/enlace-texto-blanco.svg";
-import nosotrosFamilia from "@/assets/nosotros-familia.png.asset.json";
+import nosotrosFamilia from "@/assets/family.png";
+import { getSchedule } from "@/lib/api/live.functions";
+import { ENLACE_PLUS_LINKS } from "@/lib/enlace-plus-links";
+import { APP_STORE_URL, DONATION_URL, GOOGLE_PLAY_URL, LIVE_URL, type ScheduleData } from "@/lib/site";
+import {
+  formatSchedulePreviewLabel,
+  ScheduleModal,
+} from "@/components/schedule-modal";
+import { LivePlayer } from "@/components/live-player";
+
+function isExternalHref(href: string) {
+  return href.startsWith("http");
+}
+
+const donateLinkProps = {
+  href: DONATION_URL,
+  target: "_blank",
+  rel: "noopener noreferrer",
+} as const;
+
+const liveLinkProps = {
+  href: LIVE_URL,
+  target: "_blank",
+  rel: "noopener noreferrer",
+} as const;
+
+const appStoreLinkProps = {
+  href: APP_STORE_URL,
+  target: "_blank",
+  rel: "noopener noreferrer",
+} as const;
+
+const googlePlayLinkProps = {
+  href: GOOGLE_PLAY_URL,
+  target: "_blank",
+  rel: "noopener noreferrer",
+} as const;
+
+function formatCop(value: number) {
+  return new Intl.NumberFormat("es-CO", {
+    style: "currency",
+    currency: "COP",
+    maximumFractionDigits: 0,
+  }).format(value);
+}
+
+/** Etiqueta corta para botones de monto (ej. $50 mil). */
+function formatCopCompact(value: number) {
+  if (value >= 1000) return `$${(value / 1000).toLocaleString("es-CO")} mil`;
+  return formatCop(value);
+}
 
 export const Route = createFileRoute("/")({
+  loader: async (): Promise<{ schedule: ScheduleData | null }> => {
+    try {
+      return { schedule: await getSchedule() };
+    } catch (error) {
+      console.error("No se pudo cargar la programación:", error);
+      return { schedule: null };
+    }
+  },
   component: Index,
 });
 
 const programs = [
-  { title: "Prédicas", desc: "Enseñanza bíblica diaria", img: progPredicas, icon: Tv },
-  { title: "Música", desc: "Adoración y alabanza", img: progMusica, icon: Music2 },
-  { title: "Familia", desc: "Consejería y vida en familia", img: progFamilia, icon: Users2 },
-  { title: "Biblia", desc: "Estudios y devocionales", img: progBiblia, icon: BookOpen },
-  { title: "Jóvenes", desc: "Generación que adora", img: progJovenes, icon: Sparkles },
-  { title: "Enlace+", desc: "Streaming on-demand", img: progEnlacePlus, icon: Play },
+  { title: "Prédicas", desc: "Enseñanza bíblica diaria", img: progPredicas, icon: Tv, href: ENLACE_PLUS_LINKS.predicas },
+  { title: "Música", desc: "Adoración y alabanza", img: progMusica, icon: Music2, href: ENLACE_PLUS_LINKS.musica },
+  { title: "Familia", desc: "Consejería y vida en familia", img: progFamilia, icon: Users2, href: ENLACE_PLUS_LINKS.familia },
+  { title: "Biblia", desc: "Estudios y devocionales", img: progBiblia, icon: BookOpen, href: ENLACE_PLUS_LINKS.biblia },
+  { title: "Jóvenes", desc: "Generación que adora", img: progJovenes, icon: Sparkles, href: ENLACE_PLUS_LINKS.jovenes },
+  { title: "Enlace+", desc: "Streaming on-demand", img: progEnlacePlus, icon: Play, href: ENLACE_PLUS_LINKS.enlacePlus },
 ];
 
 const navItems = [
@@ -65,7 +123,7 @@ const navItems = [
         {
           title: "Transmisión",
           links: [
-            { label: "Enlace TV en vivo", desc: "Señal 24/7", icon: Radio, href: "#en-vivo" },
+            { label: "Enlace TV en vivo", desc: "Señal 24/7", icon: Radio, href: LIVE_URL },
             { label: "Programación de hoy", desc: "Guía completa", icon: Tv, href: "#en-vivo" },
             { label: "Eventos especiales", desc: "Conferencias y conciertos", icon: Sparkles, href: "#en-vivo" },
           ],
@@ -73,9 +131,9 @@ const navItems = [
         {
           title: "On-Demand",
           links: [
-            { label: "Enlace+", desc: "Películas y series", icon: Play, href: "#programas" },
-            { label: "Música cristiana", desc: "Conciertos y videoclips", icon: Music2, href: "#programas" },
-            { label: "Biblia interactiva", desc: "Lecturas guiadas", icon: BookOpen, href: "#programas" },
+            { label: "Enlace+", desc: "Películas y series", icon: Play, href: ENLACE_PLUS_LINKS.enlacePlus },
+            { label: "Música cristiana", desc: "Conciertos y videoclips", icon: Music2, href: ENLACE_PLUS_LINKS.musica },
+            { label: "Biblia interactiva", desc: "Lecturas guiadas", icon: BookOpen, href: ENLACE_PLUS_LINKS.bibliaInteractiva },
           ],
         },
       ],
@@ -90,21 +148,22 @@ const navItems = [
         {
           title: "Categorías",
           links: [
-            { label: "Prédicas", desc: "Enseñanza bíblica", icon: Tv, href: "#programas" },
-            { label: "Familia", desc: "Vida en el hogar", icon: Users2, href: "#programas" },
-            { label: "Jóvenes", desc: "Nueva generación", icon: Sparkles, href: "#programas" },
+            { label: "Prédicas", desc: "Enseñanza bíblica", icon: Tv, href: ENLACE_PLUS_LINKS.predicas },
+            { label: "Niños", desc: "Programas infantiles", icon: Users2, href: ENLACE_PLUS_LINKS.ninos },
+            { label: "Jóvenes", desc: "Nueva generación", icon: Sparkles, href: ENLACE_PLUS_LINKS.jovenes },
           ],
         },
         {
           title: "Destacados",
           links: [
-            { label: "En Casa Con…", desc: "Yuri & Rodrigo Espinoza", icon: Star, href: "#programas" },
-            { label: "Salmo 23", desc: "Devocional diario", icon: BookOpen, href: "#programas" },
-            { label: "Música 24/7", desc: "Adoración sin pausa", icon: Music2, href: "#programas" },
+            { label: "Familia", desc: "Vida en el hogar", icon: Star, href: ENLACE_PLUS_LINKS.familia },
+            { label: "En Casa Con…", desc: "Yuri & Rodrigo Espinoza", icon: Star, href: ENLACE_PLUS_LINKS.enCasaCon },
+            { label: "Salmo 23", desc: "Devocional diario", icon: BookOpen, href: ENLACE_PLUS_LINKS.salmo23 },
+            { label: "Música 24/7", desc: "Adoración sin pausa", icon: Music2, href: ENLACE_PLUS_LINKS.musica },
           ],
         },
       ],
-      cta: { title: "Estrenos de la semana", desc: "Nuevo contenido cada lunes", img: progPredicas },
+      cta: { title: "Estrenos de la semana", desc: "Nuevo contenido cada lunes", img: progPredicas, href: ENLACE_PLUS_LINKS.programs },
     },
   },
   { label: "Donar", href: "#donar" },
@@ -112,13 +171,15 @@ const navItems = [
 ];
 
 function Index() {
+  const { schedule } = Route.useLoaderData();
+
   return (
     <div className="min-h-screen bg-background text-foreground">
       <Header />
       <main>
         <Hero />
         <TrustBar />
-        <LiveSection />
+        <LiveSection schedule={schedule} />
         <Nosotros />
         <NuestraLabor />
         <Programs />
@@ -192,11 +253,11 @@ function Header() {
             <button className="hidden md:inline-flex h-9 w-9 items-center justify-center rounded-full text-white/80 hover:text-white hover:bg-white/10 transition-colors" aria-label="Buscar">
               <Search className="h-4 w-4" />
             </button>
-            <a href="#en-vivo" className="hidden md:inline-flex items-center gap-2 h-9 px-3 rounded-full btn-ghost-light text-sm">
+            <a {...liveLinkProps} className="hidden md:inline-flex items-center gap-2 h-9 px-3 rounded-full btn-ghost-light text-sm">
               <span className="h-2 w-2 rounded-full bg-red-500 live-dot" />
               EN VIVO
             </a>
-            <a href="#donar" className="inline-flex items-center gap-2 h-10 px-4 sm:px-5 rounded-full btn-gold text-sm">
+            <a {...donateLinkProps} className="inline-flex items-center gap-2 h-10 px-4 sm:px-5 rounded-full btn-gold text-sm">
               <Heart className="h-4 w-4" />
               Donar
             </a>
@@ -232,10 +293,13 @@ function MegaMenu({ data }: { data: NonNullable<(typeof navItems)[0]["mega"]> })
                 {col.title}
               </p>
               <ul className="space-y-1">
-                {col.links.map((l) => (
+                {col.links.map((l) => {
+                  const href = (l as { href?: string }).href ?? "#";
+                  return (
                   <li key={l.label}>
                     <a
-                      href={(l as { href?: string }).href ?? "#"}
+                      href={href}
+                      {...(isExternalHref(href) ? { target: "_blank", rel: "noopener noreferrer" } : {})}
                       className="group flex items-start gap-3 rounded-lg p-3 hover:bg-secondary transition-colors"
                     >
                       <span className="grid h-9 w-9 shrink-0 place-items-center rounded-lg surface-violet">
@@ -249,7 +313,8 @@ function MegaMenu({ data }: { data: NonNullable<(typeof navItems)[0]["mega"]> })
                       </span>
                     </a>
                   </li>
-                ))}
+                  );
+                })}
               </ul>
             </div>
           ))}
@@ -266,7 +331,11 @@ function MegaMenu({ data }: { data: NonNullable<(typeof navItems)[0]["mega"]> })
               </p>
               <h4 className="text-lg font-bold text-white mb-1">{data.cta.title}</h4>
               <p className="text-sm text-white/80 mb-4">{data.cta.desc}</p>
-              <a href="#" className="inline-flex items-center gap-2 text-sm font-semibold text-gold hover:gap-3 transition-all">
+              <a
+                href={(data.cta as { href?: string }).href ?? "#"}
+                {...(isExternalHref((data.cta as { href?: string }).href ?? "") ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+                className="inline-flex items-center gap-2 text-sm font-semibold text-gold hover:gap-3 transition-all"
+              >
                 Explorar <ArrowRight className="h-4 w-4" />
               </a>
             </div>
@@ -295,7 +364,7 @@ function MobileMenu({ onClose }: { onClose: () => void }) {
             </a>
           ))}
         </nav>
-        <a href="#donar" onClick={onClose} className="mt-6 inline-flex w-full items-center justify-center gap-2 h-12 rounded-full btn-gold">
+        <a {...donateLinkProps} onClick={onClose} className="mt-6 inline-flex w-full items-center justify-center gap-2 h-12 rounded-full btn-gold">
           <Heart className="h-4 w-4" /> Donar ahora
         </a>
       </div>
@@ -339,7 +408,7 @@ function Hero() {
             <a href="#oracion" className="inline-flex items-center gap-2 h-12 px-6 rounded-full btn-ghost-light text-base font-semibold">
               <HandHeart className="h-5 w-5" /> Enviar petición
             </a>
-            <a href="#donar" className="inline-flex items-center gap-2 h-12 px-6 rounded-full bg-white text-violet-deep text-base font-semibold hover:bg-white/90 transition">
+            <a {...donateLinkProps} className="inline-flex items-center gap-2 h-12 px-6 rounded-full bg-white text-violet-deep text-base font-semibold hover:bg-white/90 transition">
               <Heart className="h-5 w-5" /> Donar ahora
             </a>
           </div>
@@ -376,24 +445,31 @@ function TrustBar() {
 }
 
 /* ---------------- LIVE ---------------- */
-function LiveSection() {
+function LiveSection({ schedule }: { schedule: ScheduleData | null }) {
+  const [scheduleOpen, setScheduleOpen] = useState(false);
+  const [playing, setPlaying] = useState(false);
+  const live = schedule?.live ?? null;
+  const title = live?.title ?? "Enlace TV en vivo";
+  const previewSlots =
+    schedule?.upcoming.length
+      ? schedule.upcoming
+      : [
+          { hour: "19:00", title: "Prédica · Pastor invitado", description: "" },
+          { hour: "21:00", title: "Noche de adoración", description: "" },
+          { hour: "08:00", title: "Devocional matutino", description: "" },
+        ];
+
   return (
     <section id="en-vivo" className="py-20 sm:py-28">
+      <ScheduleModal open={scheduleOpen} onOpenChange={setScheduleOpen} schedule={schedule} />
       <div className="mx-auto max-w-7xl px-4 sm:px-6 grid lg:grid-cols-[1.5fr_1fr] gap-10 items-center">
-        <div className="relative aspect-video rounded-3xl overflow-hidden shadow-lift glow-violet group">
-          <img src={heroImg} alt="Transmisión en vivo" className="absolute inset-0 h-full w-full object-cover" loading="lazy" />
-          <div className="absolute inset-0 bg-linear-to-tr from-violet-deep/80 via-violet/30 to-transparent" />
-          <div className="absolute top-4 left-4 inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-red-500 text-white text-xs font-bold">
-            <span className="h-2 w-2 rounded-full bg-white live-dot" /> EN VIVO
-          </div>
-          <button className="absolute inset-0 m-auto h-20 w-20 rounded-full bg-white/95 grid place-items-center group-hover:scale-110 transition-transform shadow-2xl" aria-label="Reproducir">
-            <Play className="h-8 w-8 text-violet-deep fill-current ml-1" />
-          </button>
-          <div className="absolute bottom-0 inset-x-0 p-6 bg-linear-to-t from-black/80 to-transparent">
-            <p className="text-xs font-semibold tracking-widest uppercase text-gold">Ahora en vivo</p>
-            <p className="text-xl font-bold text-white">En Casa Con… Yuri & Rodrigo Espinoza</p>
-          </div>
-        </div>
+        <LivePlayer
+          program={live}
+          title={title}
+          fallbackSrc={heroImg}
+          playing={playing}
+          onPlay={() => setPlaying(true)}
+        />
         <div>
           <span className="text-xs font-semibold tracking-widest uppercase text-violet">Transmisión</span>
           <h2 className="mt-3 text-4xl sm:text-5xl font-extrabold text-foreground leading-tight">
@@ -403,23 +479,40 @@ function LiveSection() {
             Acompáñanos desde cualquier lugar del mundo. Prédicas, música, familia y mucho más, sin interrupciones.
           </p>
           <div className="mt-8 flex flex-wrap gap-3">
-            <a href="#" className="inline-flex items-center gap-2 h-11 px-5 rounded-full surface-violet text-sm font-semibold">
+            <button
+              type="button"
+              onClick={() => setPlaying(true)}
+              className="inline-flex items-center gap-2 h-11 px-5 rounded-full surface-violet text-sm font-semibold"
+            >
               <Play className="h-4 w-4 fill-current" /> Ver ahora
+            </button>
+            <a
+              {...liveLinkProps}
+              className="inline-flex items-center gap-2 h-11 px-5 rounded-full bg-secondary text-foreground text-sm font-semibold hover:bg-violet/10 transition"
+            >
+              Abrir en Enlace+
             </a>
-            <a href="#" className="inline-flex items-center gap-2 h-11 px-5 rounded-full bg-secondary text-foreground text-sm font-semibold hover:bg-violet hover:text-white transition">
+            <button
+              type="button"
+              onClick={() => setScheduleOpen(true)}
+              className="inline-flex items-center gap-2 h-11 px-5 rounded-full bg-secondary text-foreground text-sm font-semibold hover:bg-violet hover:text-white transition"
+            >
               Ver programación <ArrowRight className="h-4 w-4" />
-            </a>
+            </button>
           </div>
-          <div className="mt-8 grid grid-cols-3 gap-4">
-            {[
-              { t: "Hoy 19:00", s: "Prédica · Pastor invitado" },
-              { t: "Hoy 21:00", s: "Noche de adoración" },
-              { t: "Mañana 08:00", s: "Devocional matutino" },
-            ].map((p) => (
-              <div key={p.t} className="rounded-xl border border-border p-3 bg-card">
-                <p className="text-xs font-bold text-violet">{p.t}</p>
-                <p className="text-xs text-muted-foreground mt-1 leading-snug">{p.s}</p>
-              </div>
+          <div className="mt-8 grid grid-cols-1 sm:grid-cols-3 gap-4">
+            {previewSlots.map((slot) => (
+              <button
+                key={`${slot.hour}-${slot.title}`}
+                type="button"
+                onClick={() => setScheduleOpen(true)}
+                className="rounded-xl border border-border p-3 bg-card text-left hover:border-violet/40 hover:shadow-card transition"
+              >
+                <p className="text-xs font-bold text-violet">
+                  {schedule ? formatSchedulePreviewLabel(slot.hour) : slot.hour}
+                </p>
+                <p className="text-xs text-muted-foreground mt-1 leading-snug line-clamp-2">{slot.title}</p>
+              </button>
             ))}
           </div>
         </div>
@@ -440,13 +533,24 @@ function Programs() {
               Contenido que <span className="text-violet">transforma</span>
             </h2>
           </div>
-          <a href="#" className="inline-flex items-center gap-2 text-sm font-semibold text-violet hover:gap-3 transition-all">
+          <a
+            href={ENLACE_PLUS_LINKS.programs}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 text-sm font-semibold text-violet hover:gap-3 transition-all"
+          >
             Ver todo el catálogo <ArrowRight className="h-4 w-4" />
           </a>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {programs.map((p) => (
-            <a key={p.title} href="#" className="group relative aspect-4/5 rounded-2xl overflow-hidden shadow-card hover:shadow-lift transition-all">
+            <a
+              key={p.title}
+              href={p.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group relative aspect-4/5 rounded-2xl overflow-hidden shadow-card hover:shadow-lift transition-all"
+            >
               <img src={p.img} alt={p.title} className="absolute inset-0 h-full w-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" />
               <div className="absolute inset-0 bg-linear-to-t from-violet-deep via-violet-deep/40 to-transparent" />
               <div className="absolute inset-x-0 bottom-0 p-6">
@@ -557,9 +661,8 @@ function Field({ label, placeholder }: { label: string; placeholder: string }) {
 
 /* ---------------- DONATE ---------------- */
 function DonateSection() {
-  const [freq, setFreq] = useState<"once" | "month">("month");
-  const [amount, setAmount] = useState(50);
-  const amounts = [25, 50, 100, 250];
+  const [amount, setAmount] = useState(100_000);
+  const amounts = [50_000, 100_000, 200_000, 500_000];
 
   return (
     <section id="donar" className="relative py-20 sm:py-28 surface-dark overflow-hidden">
@@ -576,10 +679,10 @@ function DonateSection() {
           </p>
           <div className="mt-8 grid grid-cols-2 gap-4">
             {[
-              { icon: ShieldCheck, t: "Pagos 100% seguros", s: "Encriptación bancaria SSL" },
+              { icon: ShieldCheck, t: "Pagos 100% seguros", s: "Pasarela ZonaPagos certificada" },
               { icon: CheckCircle2, t: "Ministerio certificado", s: "Reportes públicos mensuales" },
-              { icon: Globe2, t: "Donaciones internacionales", s: "Tarjeta · PayPal · Transferencia" },
-              { icon: HandHeart, t: "Cancela cuando quieras", s: "Sin permanencia" },
+              { icon: Globe2, t: "PSE y tarjeta", s: "Débito, crédito y PSE" },
+              { icon: HandHeart, t: "Donación única", s: "Sin suscripciones mensuales" },
             ].map((x) => (
               <div key={x.t} className="flex items-start gap-3">
                 <span className="grid h-9 w-9 shrink-0 place-items-center rounded-lg bg-white/10 border border-white/15">
@@ -595,45 +698,45 @@ function DonateSection() {
         </div>
 
         <div className="rounded-3xl bg-white p-6 sm:p-8 shadow-lift">
-          <div className="grid grid-cols-2 p-1 rounded-full bg-secondary mb-6">
-            {(["month", "once"] as const).map((f) => (
-              <button
-                key={f}
-                onClick={() => setFreq(f)}
-                className={`h-10 rounded-full text-sm font-semibold transition ${
-                  freq === f ? "surface-violet shadow-glow-violet" : "text-foreground"
-                }`}
-              >
-                {f === "month" ? "Mensual" : "Una vez"}
-              </button>
-            ))}
-          </div>
-          <p className="text-sm font-semibold text-foreground mb-3">Elige un monto (USD)</p>
+          <p className="inline-flex items-center rounded-full bg-secondary px-4 py-2 text-sm font-semibold text-foreground mb-6">
+            Donación única · Pesos colombianos (COP)
+          </p>
+          <p className="text-sm font-semibold text-foreground mb-3">Elige un monto sugerido (COP)</p>
           <div className="grid grid-cols-4 gap-2 mb-3">
             {amounts.map((a) => (
               <button
                 key={a}
+                type="button"
                 onClick={() => setAmount(a)}
-                className={`h-12 rounded-xl border-2 font-bold transition ${
+                className={`h-12 rounded-xl border-2 text-sm font-bold transition ${
                   amount === a
                     ? "border-violet bg-violet text-white"
                     : "border-border bg-background text-foreground hover:border-violet/50"
                 }`}
               >
-                ${a}
+                {formatCopCompact(a)}
               </button>
             ))}
           </div>
           <input
             type="number"
+            min={1000}
+            step={1000}
             value={amount}
-            onChange={(e) => setAmount(Number(e.target.value))}
+            onChange={(e) => setAmount(Math.max(0, Number(e.target.value) || 0))}
             className="w-full h-12 rounded-xl border-2 border-border px-4 text-lg font-bold text-foreground focus:outline-none focus:border-violet"
+            aria-label="Monto en pesos colombianos"
           />
-          <button className="mt-6 w-full inline-flex items-center justify-center gap-2 h-14 rounded-full btn-gold text-base">
+          <p className="mt-2 text-xs text-muted-foreground text-center">
+            Confirmas el valor final en la pasarela segura de ZonaPagos.
+          </p>
+          <a
+            {...donateLinkProps}
+            className="mt-6 w-full inline-flex items-center justify-center gap-2 h-14 rounded-full btn-gold text-base font-semibold"
+          >
             <Heart className="h-5 w-5" />
-            Donar ${amount} {freq === "month" ? "/ mes" : "ahora"}
-          </button>
+            Donar {formatCop(amount)}
+          </a>
           <div className="mt-4 flex items-center justify-center gap-3 text-xs text-muted-foreground">
             <ShieldCheck className="h-4 w-4 text-violet" />
             Procesado con encriptación de nivel bancario
@@ -721,8 +824,8 @@ function Transparency() {
   const faqs = [
     { q: "¿En qué se usan las donaciones?", a: "Producción de contenido, sostenimiento de la señal 24/7, equipo pastoral y proyectos misioneros." },
     { q: "¿Es seguro donar online?", a: "Sí. Procesamos con encriptación SSL de nivel bancario y proveedores certificados PCI-DSS." },
-    { q: "¿Puedo cancelar mi donación mensual?", a: "Por supuesto. Puedes pausar o cancelar en cualquier momento desde tu panel de donante." },
-    { q: "¿Reciben donaciones internacionales?", a: "Sí, aceptamos tarjeta, PayPal y transferencia desde más de 45 países." },
+    { q: "¿Cómo hago mi donación?", a: "Haz clic en Donar y completa el pago en ZonaPagos con PSE, tarjeta débito o crédito. El monto lo confirmas en la pasarela." },
+    { q: "¿Reciben donaciones desde el exterior?", a: "Las donaciones en línea se procesan en pesos colombianos. Si estás fuera del país, escríbenos a info@enlacecolombia.org y te orientamos." },
   ];
   return (
     <section id="transparencia" className="py-20 sm:py-28">
@@ -786,7 +889,7 @@ function Mission() {
           Una familia global de creyentes, pastores y voluntarios trabajando juntos para que nadie quede sin escuchar las buenas noticias.
         </p>
         <div className="mt-10 flex flex-wrap justify-center gap-3">
-          <a href="#donar" className="inline-flex items-center gap-2 h-12 px-6 rounded-full btn-gold">
+          <a {...donateLinkProps} className="inline-flex items-center gap-2 h-12 px-6 rounded-full btn-gold">
             <Heart className="h-5 w-5" /> Sumarme con una ofrenda
           </a>
           <a href="#oracion" className="inline-flex items-center gap-2 h-12 px-6 rounded-full btn-ghost-light font-semibold">
@@ -816,11 +919,11 @@ function Footer() {
               <a href="https://twitter.com/CorpEnlaceCo" target="_blank" rel="noreferrer" className="h-10 w-10 grid place-items-center rounded-full bg-white/10 hover:bg-gold hover:text-violet-deep text-white transition" aria-label="Twitter / X"><Twitter className="h-4 w-4" /></a>
             </div>
             <div className="mt-6 flex flex-wrap gap-3">
-              <a href="#" className="inline-flex items-center gap-2 h-11 px-4 rounded-xl bg-white/10 hover:bg-white/15 text-white text-sm transition">
+              <a {...appStoreLinkProps} className="inline-flex items-center gap-2 h-11 px-4 rounded-xl bg-white/10 hover:bg-white/15 text-white text-sm transition">
                 <Apple className="h-5 w-5" />
                 <span><span className="block text-[10px] opacity-70">Descargar en</span><span className="block font-semibold -mt-0.5">App Store</span></span>
               </a>
-              <a href="#" className="inline-flex items-center gap-2 h-11 px-4 rounded-xl bg-white/10 hover:bg-white/15 text-white text-sm transition">
+              <a {...googlePlayLinkProps} className="inline-flex items-center gap-2 h-11 px-4 rounded-xl bg-white/10 hover:bg-white/15 text-white text-sm transition">
                 <Play className="h-5 w-5" />
                 <span><span className="block text-[10px] opacity-70">Disponible en</span><span className="block font-semibold -mt-0.5">Google Play</span></span>
               </a>
@@ -837,7 +940,7 @@ function Footer() {
               <li className="flex items-start gap-2"><Mail className="h-4 w-4 mt-0.5 text-gold shrink-0" />info@enlacecolombia.org</li>
               <li className="flex items-start gap-2"><Clock className="h-4 w-4 mt-0.5 text-gold shrink-0" />Lun a Vie · 7:00 AM – 5:00 PM</li>
             </ul>
-            <a href="https://www.zonapagos.com/t_corpenlace/pagos.asp" target="_blank" rel="noreferrer" className="mt-5 inline-flex items-center gap-2 h-10 px-4 rounded-full btn-gold text-sm">
+            <a {...donateLinkProps} className="mt-5 inline-flex items-center gap-2 h-10 px-4 rounded-full btn-gold text-sm">
               <Heart className="h-4 w-4" /> Donar online
             </a>
           </div>
@@ -901,7 +1004,7 @@ function Nosotros() {
           <div className="relative">
             <div className="absolute -inset-6 rounded-4xl bg-linear-to-br from-sky-200/40 via-sky-400/20 to-transparent blur-2xl" aria-hidden />
             <img
-              src={nosotrosFamilia.url}
+              src={nosotrosFamilia}
               alt="Familia colombiana disfrutando la televisión cristiana de Enlace"
               loading="lazy"
               width={1024}
@@ -1029,7 +1132,7 @@ function Reflexiones() {
             Estamos preparando contenido nuevo para esta sección. Mientras tanto, te invitamos a ver la transmisión en vivo o a enviarnos tu petición de oración.
           </p>
           <div className="mt-6 flex flex-wrap justify-center gap-3">
-            <a href="#en-vivo" className="inline-flex items-center gap-2 h-11 px-5 rounded-full surface-violet text-sm font-semibold">
+            <a {...liveLinkProps} className="inline-flex items-center gap-2 h-11 px-5 rounded-full surface-violet text-sm font-semibold">
               <Play className="h-4 w-4 fill-current" /> Ver en vivo
             </a>
             <a href="#oracion" className="inline-flex items-center gap-2 h-11 px-5 rounded-full bg-secondary text-foreground text-sm font-semibold hover:bg-violet hover:text-white transition">
