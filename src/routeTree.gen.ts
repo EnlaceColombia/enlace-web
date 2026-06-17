@@ -9,38 +9,258 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as TerminosRouteImport } from './routes/terminos'
+import { Route as RegistroWebRouteImport } from './routes/registro-web'
+import { Route as PrivacidadRouteImport } from './routes/privacidad'
+import { Route as MaratonicaRouteImport } from './routes/maratonica'
+import { Route as CookiesRouteImport } from './routes/cookies'
+import { Route as AdminRouteRouteImport } from './routes/admin/route'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ReflexionesIndexRouteImport } from './routes/reflexiones/index'
+import { Route as AdminIndexRouteImport } from './routes/admin/index'
+import { Route as ReflexionesSlugRouteImport } from './routes/reflexiones/$slug'
+import { Route as AdminRegistroWebRouteImport } from './routes/admin/registro-web'
+import { Route as AdminMaratonicaRouteImport } from './routes/admin/maratonica'
+import { Route as AdminDashboardRouteImport } from './routes/admin/dashboard'
+import { Route as AdminBlogsIndexRouteImport } from './routes/admin/blogs/index'
+import { Route as AdminBlogsIdRouteImport } from './routes/admin/blogs/$id'
 
+const TerminosRoute = TerminosRouteImport.update({
+  id: '/terminos',
+  path: '/terminos',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RegistroWebRoute = RegistroWebRouteImport.update({
+  id: '/registro-web',
+  path: '/registro-web',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PrivacidadRoute = PrivacidadRouteImport.update({
+  id: '/privacidad',
+  path: '/privacidad',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MaratonicaRoute = MaratonicaRouteImport.update({
+  id: '/maratonica',
+  path: '/maratonica',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CookiesRoute = CookiesRouteImport.update({
+  id: '/cookies',
+  path: '/cookies',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminRouteRoute = AdminRouteRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ReflexionesIndexRoute = ReflexionesIndexRouteImport.update({
+  id: '/reflexiones/',
+  path: '/reflexiones/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminIndexRoute = AdminIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AdminRouteRoute,
+} as any)
+const ReflexionesSlugRoute = ReflexionesSlugRouteImport.update({
+  id: '/reflexiones/$slug',
+  path: '/reflexiones/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminRegistroWebRoute = AdminRegistroWebRouteImport.update({
+  id: '/registro-web',
+  path: '/registro-web',
+  getParentRoute: () => AdminRouteRoute,
+} as any)
+const AdminMaratonicaRoute = AdminMaratonicaRouteImport.update({
+  id: '/maratonica',
+  path: '/maratonica',
+  getParentRoute: () => AdminRouteRoute,
+} as any)
+const AdminDashboardRoute = AdminDashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => AdminRouteRoute,
+} as any)
+const AdminBlogsIndexRoute = AdminBlogsIndexRouteImport.update({
+  id: '/blogs/',
+  path: '/blogs/',
+  getParentRoute: () => AdminRouteRoute,
+} as any)
+const AdminBlogsIdRoute = AdminBlogsIdRouteImport.update({
+  id: '/blogs/$id',
+  path: '/blogs/$id',
+  getParentRoute: () => AdminRouteRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/admin': typeof AdminRouteRouteWithChildren
+  '/cookies': typeof CookiesRoute
+  '/maratonica': typeof MaratonicaRoute
+  '/privacidad': typeof PrivacidadRoute
+  '/registro-web': typeof RegistroWebRoute
+  '/terminos': typeof TerminosRoute
+  '/admin/dashboard': typeof AdminDashboardRoute
+  '/admin/maratonica': typeof AdminMaratonicaRoute
+  '/admin/registro-web': typeof AdminRegistroWebRoute
+  '/reflexiones/$slug': typeof ReflexionesSlugRoute
+  '/admin/': typeof AdminIndexRoute
+  '/reflexiones/': typeof ReflexionesIndexRoute
+  '/admin/blogs/$id': typeof AdminBlogsIdRoute
+  '/admin/blogs/': typeof AdminBlogsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/cookies': typeof CookiesRoute
+  '/maratonica': typeof MaratonicaRoute
+  '/privacidad': typeof PrivacidadRoute
+  '/registro-web': typeof RegistroWebRoute
+  '/terminos': typeof TerminosRoute
+  '/admin/dashboard': typeof AdminDashboardRoute
+  '/admin/maratonica': typeof AdminMaratonicaRoute
+  '/admin/registro-web': typeof AdminRegistroWebRoute
+  '/reflexiones/$slug': typeof ReflexionesSlugRoute
+  '/admin': typeof AdminIndexRoute
+  '/reflexiones': typeof ReflexionesIndexRoute
+  '/admin/blogs/$id': typeof AdminBlogsIdRoute
+  '/admin/blogs': typeof AdminBlogsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/admin': typeof AdminRouteRouteWithChildren
+  '/cookies': typeof CookiesRoute
+  '/maratonica': typeof MaratonicaRoute
+  '/privacidad': typeof PrivacidadRoute
+  '/registro-web': typeof RegistroWebRoute
+  '/terminos': typeof TerminosRoute
+  '/admin/dashboard': typeof AdminDashboardRoute
+  '/admin/maratonica': typeof AdminMaratonicaRoute
+  '/admin/registro-web': typeof AdminRegistroWebRoute
+  '/reflexiones/$slug': typeof ReflexionesSlugRoute
+  '/admin/': typeof AdminIndexRoute
+  '/reflexiones/': typeof ReflexionesIndexRoute
+  '/admin/blogs/$id': typeof AdminBlogsIdRoute
+  '/admin/blogs/': typeof AdminBlogsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/admin'
+    | '/cookies'
+    | '/maratonica'
+    | '/privacidad'
+    | '/registro-web'
+    | '/terminos'
+    | '/admin/dashboard'
+    | '/admin/maratonica'
+    | '/admin/registro-web'
+    | '/reflexiones/$slug'
+    | '/admin/'
+    | '/reflexiones/'
+    | '/admin/blogs/$id'
+    | '/admin/blogs/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/cookies'
+    | '/maratonica'
+    | '/privacidad'
+    | '/registro-web'
+    | '/terminos'
+    | '/admin/dashboard'
+    | '/admin/maratonica'
+    | '/admin/registro-web'
+    | '/reflexiones/$slug'
+    | '/admin'
+    | '/reflexiones'
+    | '/admin/blogs/$id'
+    | '/admin/blogs'
+  id:
+    | '__root__'
+    | '/'
+    | '/admin'
+    | '/cookies'
+    | '/maratonica'
+    | '/privacidad'
+    | '/registro-web'
+    | '/terminos'
+    | '/admin/dashboard'
+    | '/admin/maratonica'
+    | '/admin/registro-web'
+    | '/reflexiones/$slug'
+    | '/admin/'
+    | '/reflexiones/'
+    | '/admin/blogs/$id'
+    | '/admin/blogs/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AdminRouteRoute: typeof AdminRouteRouteWithChildren
+  CookiesRoute: typeof CookiesRoute
+  MaratonicaRoute: typeof MaratonicaRoute
+  PrivacidadRoute: typeof PrivacidadRoute
+  RegistroWebRoute: typeof RegistroWebRoute
+  TerminosRoute: typeof TerminosRoute
+  ReflexionesSlugRoute: typeof ReflexionesSlugRoute
+  ReflexionesIndexRoute: typeof ReflexionesIndexRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/terminos': {
+      id: '/terminos'
+      path: '/terminos'
+      fullPath: '/terminos'
+      preLoaderRoute: typeof TerminosRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/registro-web': {
+      id: '/registro-web'
+      path: '/registro-web'
+      fullPath: '/registro-web'
+      preLoaderRoute: typeof RegistroWebRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/privacidad': {
+      id: '/privacidad'
+      path: '/privacidad'
+      fullPath: '/privacidad'
+      preLoaderRoute: typeof PrivacidadRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/maratonica': {
+      id: '/maratonica'
+      path: '/maratonica'
+      fullPath: '/maratonica'
+      preLoaderRoute: typeof MaratonicaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/cookies': {
+      id: '/cookies'
+      path: '/cookies'
+      fullPath: '/cookies'
+      preLoaderRoute: typeof CookiesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin': {
+      id: '/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AdminRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -48,11 +268,97 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/reflexiones/': {
+      id: '/reflexiones/'
+      path: '/reflexiones'
+      fullPath: '/reflexiones/'
+      preLoaderRoute: typeof ReflexionesIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/': {
+      id: '/admin/'
+      path: '/'
+      fullPath: '/admin/'
+      preLoaderRoute: typeof AdminIndexRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
+    '/reflexiones/$slug': {
+      id: '/reflexiones/$slug'
+      path: '/reflexiones/$slug'
+      fullPath: '/reflexiones/$slug'
+      preLoaderRoute: typeof ReflexionesSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/registro-web': {
+      id: '/admin/registro-web'
+      path: '/registro-web'
+      fullPath: '/admin/registro-web'
+      preLoaderRoute: typeof AdminRegistroWebRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
+    '/admin/maratonica': {
+      id: '/admin/maratonica'
+      path: '/maratonica'
+      fullPath: '/admin/maratonica'
+      preLoaderRoute: typeof AdminMaratonicaRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
+    '/admin/dashboard': {
+      id: '/admin/dashboard'
+      path: '/dashboard'
+      fullPath: '/admin/dashboard'
+      preLoaderRoute: typeof AdminDashboardRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
+    '/admin/blogs/': {
+      id: '/admin/blogs/'
+      path: '/blogs'
+      fullPath: '/admin/blogs/'
+      preLoaderRoute: typeof AdminBlogsIndexRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
+    '/admin/blogs/$id': {
+      id: '/admin/blogs/$id'
+      path: '/blogs/$id'
+      fullPath: '/admin/blogs/$id'
+      preLoaderRoute: typeof AdminBlogsIdRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
   }
 }
 
+interface AdminRouteRouteChildren {
+  AdminDashboardRoute: typeof AdminDashboardRoute
+  AdminMaratonicaRoute: typeof AdminMaratonicaRoute
+  AdminRegistroWebRoute: typeof AdminRegistroWebRoute
+  AdminIndexRoute: typeof AdminIndexRoute
+  AdminBlogsIdRoute: typeof AdminBlogsIdRoute
+  AdminBlogsIndexRoute: typeof AdminBlogsIndexRoute
+}
+
+const AdminRouteRouteChildren: AdminRouteRouteChildren = {
+  AdminDashboardRoute: AdminDashboardRoute,
+  AdminMaratonicaRoute: AdminMaratonicaRoute,
+  AdminRegistroWebRoute: AdminRegistroWebRoute,
+  AdminIndexRoute: AdminIndexRoute,
+  AdminBlogsIdRoute: AdminBlogsIdRoute,
+  AdminBlogsIndexRoute: AdminBlogsIndexRoute,
+}
+
+const AdminRouteRouteWithChildren = AdminRouteRoute._addFileChildren(
+  AdminRouteRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AdminRouteRoute: AdminRouteRouteWithChildren,
+  CookiesRoute: CookiesRoute,
+  MaratonicaRoute: MaratonicaRoute,
+  PrivacidadRoute: PrivacidadRoute,
+  RegistroWebRoute: RegistroWebRoute,
+  TerminosRoute: TerminosRoute,
+  ReflexionesSlugRoute: ReflexionesSlugRoute,
+  ReflexionesIndexRoute: ReflexionesIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

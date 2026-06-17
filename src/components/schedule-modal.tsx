@@ -73,10 +73,7 @@ export function ScheduleModal({ open, onOpenChange, schedule }: ScheduleModalPro
                       : "border-border bg-card hover:bg-secondary/50",
                   )}
                 >
-                  <ScheduleThumb
-                    program={slot}
-                    className="h-16 w-16 shrink-0 rounded-xl"
-                  />
+                  <ScheduleThumb program={slot} className="h-16 w-16 shrink-0 rounded-xl" />
                   <div className="min-w-0 flex-1">
                     <div className="flex flex-wrap items-center gap-2">
                       <span className="inline-flex items-center gap-1 text-sm font-bold text-violet">
@@ -92,7 +89,9 @@ export function ScheduleModal({ open, onOpenChange, schedule }: ScheduleModalPro
                     </div>
                     <p className="mt-1 font-semibold text-foreground">{slot.title}</p>
                     {slot.description ? (
-                      <p className="mt-1 text-sm text-muted-foreground line-clamp-2">{slot.description}</p>
+                      <p className="mt-1 text-sm text-muted-foreground line-clamp-2">
+                        {slot.description}
+                      </p>
                     ) : null}
                   </div>
                 </li>
@@ -124,9 +123,7 @@ export function LiveProgramImage({
   alt: string;
   className?: string;
 } & Omit<ImgHTMLAttributes<HTMLImageElement>, "src" | "alt">) {
-  const candidates = program
-    ? [program.imageUrl, program.thumbUrl, fallbackSrc]
-    : [fallbackSrc];
+  const candidates = program ? [program.imageUrl, program.thumbUrl, fallbackSrc] : [fallbackSrc];
   const [index, setIndex] = useState(0);
 
   return (

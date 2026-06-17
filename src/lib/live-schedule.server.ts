@@ -1,6 +1,6 @@
 import process from "node:process";
 
-import type { ScheduleData, ScheduleSlot } from "../site";
+import type { ScheduleData, ScheduleSlot } from "./site";
 
 type RawSlot = {
   Hora: string;
@@ -13,15 +13,7 @@ type RawSlot = {
 const SCHEDULE_URL = "https://componentes.enlace.org/horarioenlace.aspx";
 const DEFAULT_UTC_OFFSET = -5;
 
-const DAY_NAMES = [
-  "Domingo",
-  "Lunes",
-  "Martes",
-  "Miércoles",
-  "Jueves",
-  "Viernes",
-  "Sábado",
-];
+const DAY_NAMES = ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"];
 
 export function upgradeScheduleImageUrl(url: string): string {
   if (!url) return url;
@@ -80,12 +72,19 @@ function pickCurrentShow(slots: RawSlot[], hour: number, minute: number): RawSlo
   return current;
 }
 
-function getUpcomingShows(slots: RawSlot[], hour: number, minute: number, count: number): RawSlot[] {
+function getUpcomingShows(
+  slots: RawSlot[],
+  hour: number,
+  minute: number,
+  count: number,
+): RawSlot[] {
   const nowMinutes = hour * 60 + minute;
-  return slots.filter((slot) => {
-    const [h, m] = slot.Hora.split(":").map(Number);
-    return h * 60 + m > nowMinutes;
-  }).slice(0, count);
+  return slots
+    .filter((slot) => {
+      const [h, m] = slot.Hora.split(":").map(Number);
+      return h * 60 + m > nowMinutes;
+    })
+    .slice(0, count);
 }
 
 async function fetchSchedulePayload(utcOffsetHours: number): Promise<string> {

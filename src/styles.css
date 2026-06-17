@@ -49,52 +49,55 @@
   --radius: 0.875rem;
 
   /* Brand palette — Enlace oficial (Libro de Marca 2015) */
-  --violet-deep: #2A005C;        /* derivado de Morado 1, para fondos profundos */
-  --violet: #47009B;             /* MORADO 1 — color principal */
-  --violet-soft: #6C00C0;        /* MORADO 2 */
-  --lila: #A700FF;               /* LILA 1 — acento vibrante */
-  --lila-soft: #AF49FF;          /* LILA 2 */
-  --electric: #0AAED5;           /* CELESTE 1 — tecnología/transmisión */
-  --electric-soft: #29E0FF;      /* CELESTE 2 */
-  --azul-deep: #213373;          /* AZUL institucional */
-  --gold: #F8C100;               /* AMARILLO 1 — CTAs */
-  --gold-soft: #F7CE5E;          /* AMARILLO 2 */
-  --naranja: #FF8A00;            /* NARANJA 2 */
-  --ink: #1A0840;
+  --violet-deep: #2a005c; /* derivado de Morado 1, para fondos profundos */
+  --violet: #47009b; /* MORADO 1 — color principal */
+  --violet-soft: #6c00c0; /* MORADO 2 */
+  --lila: #a700ff; /* LILA 1 — acento vibrante */
+  --lila-soft: #af49ff; /* LILA 2 */
+  --electric: #0aaed5; /* CELESTE 1 — tecnología/transmisión */
+  --electric-soft: #29e0ff; /* CELESTE 2 */
+  --azul-deep: #213373; /* AZUL institucional */
+  --gold: #f8c100; /* AMARILLO 1 — CTAs */
+  --gold-soft: #f7ce5e; /* AMARILLO 2 */
+  --naranja: #ff8a00; /* NARANJA 2 */
+  --ink: #1a0840;
 
   --background: oklch(1 0 0);
-  --foreground: #1A0840;
+  --foreground: #1a0840;
   --card: oklch(1 0 0);
-  --card-foreground: #1A0840;
+  --card-foreground: #1a0840;
   --popover: oklch(1 0 0);
-  --popover-foreground: #1A0840;
-  --primary: #47009B;
+  --popover-foreground: #1a0840;
+  --primary: #47009b;
   --primary-foreground: oklch(0.99 0 0);
   --secondary: oklch(0.96 0.02 295);
-  --secondary-foreground: #47009B;
+  --secondary-foreground: #47009b;
   --muted: oklch(0.97 0.01 285);
-  --muted-foreground: #585F71;
-  --accent: #F8C100;
-  --accent-foreground: #2A005C;
+  --muted-foreground: #585f71;
+  --accent: #f8c100;
+  --accent-foreground: #2a005c;
   --destructive: oklch(0.6 0.22 25);
   --destructive-foreground: oklch(0.99 0 0);
   --border: oklch(0.92 0.02 285);
   --input: oklch(0.94 0.02 285);
-  --ring: #6C00C0;
+  --ring: #6c00c0;
 
   /* Gradients — siguiendo regla del manual: claro al centro */
-  --gradient-hero: linear-gradient(135deg, #6C00C0 0%, #47009B 55%, #2A005C 100%);
-  --gradient-violet: linear-gradient(135deg, #47009B, #6C00C0);
-  --gradient-electric: linear-gradient(135deg, #47009B, #0AAED5);
-  --gradient-gold: linear-gradient(135deg, #F8C100, #F7CE5E);
-  --gradient-radial-glow: radial-gradient(60% 60% at 50% 40%, rgba(10,174,213,0.35), transparent 70%);
+  --gradient-hero: linear-gradient(135deg, #6c00c0 0%, #47009b 55%, #2a005c 100%);
+  --gradient-violet: linear-gradient(135deg, #47009b, #6c00c0);
+  --gradient-electric: linear-gradient(135deg, #47009b, #0aaed5);
+  --gradient-gold: linear-gradient(135deg, #f8c100, #f7ce5e);
+  --gradient-radial-glow: radial-gradient(
+    60% 60% at 50% 40%,
+    rgba(10, 174, 213, 0.35),
+    transparent 70%
+  );
 
   /* Shadows */
   --shadow-glow-violet: 0 20px 60px -20px rgba(71, 0, 155, 0.55);
   --shadow-glow-gold: 0 16px 40px -16px rgba(248, 193, 0, 0.55);
   --shadow-card: 0 10px 40px -16px rgba(42, 0, 92, 0.18);
   --shadow-lift: 0 30px 80px -30px rgba(26, 8, 64, 0.45);
-
 }
 
 @layer base {
@@ -110,7 +113,10 @@
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
   }
-  h1, h2, h3, h4 {
+  h1,
+  h2,
+  h3,
+  h4 {
     font-family: var(--font-display);
     letter-spacing: -0.02em;
   }
@@ -139,7 +145,10 @@
   color: oklch(0.2 0.1 290);
   font-weight: 700;
   box-shadow: var(--shadow-glow-gold);
-  transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    filter 0.2s ease;
   &:hover {
     transform: translateY(-1px);
     filter: brightness(1.05);
@@ -166,17 +175,47 @@
 }
 
 @keyframes pulse-live {
-  0%, 100% { opacity: 1; transform: scale(1); }
-  50% { opacity: 0.6; transform: scale(1.15); }
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.6;
+    transform: scale(1.15);
+  }
 }
 @utility live-dot {
   animation: pulse-live 1.6s ease-in-out infinite;
 }
 
 @keyframes float-slow {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-10px); }
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
 }
 @utility float-slow {
   animation: float-slow 6s ease-in-out infinite;
+}
+
+@keyframes whatsapp-pulse {
+  0% {
+    transform: scale(1);
+    opacity: 0.55;
+  }
+  70% {
+    transform: scale(1.45);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1.45);
+    opacity: 0;
+  }
+}
+@utility whatsapp-pulse {
+  animation: whatsapp-pulse 2.4s ease-out infinite;
 }

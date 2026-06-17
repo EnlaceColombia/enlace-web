@@ -81,7 +81,9 @@ export function LivePlayer({
             <Play className="h-8 w-8 text-violet-deep fill-current ml-1" />
           </span>
           <div className="absolute bottom-0 inset-x-0 p-6 bg-linear-to-t from-black/80 to-transparent">
-            <p className="text-xs font-semibold tracking-widest uppercase text-gold">Ahora en vivo</p>
+            <p className="text-xs font-semibold tracking-widest uppercase text-gold">
+              Ahora en vivo
+            </p>
             <p className="text-xl font-bold text-white">{title}</p>
             {program?.description ? (
               <p className="mt-1 text-sm text-white/75 line-clamp-2">{program.description}</p>

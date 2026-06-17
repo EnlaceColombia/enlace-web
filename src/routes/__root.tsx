@@ -10,6 +10,8 @@ import {
 import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
+import { ConsentNotice } from "../components/consent-notice";
+import { WhatsAppBubble } from "../components/whatsapp-bubble";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 
 function NotFoundComponent() {
@@ -78,20 +80,45 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       { title: "Enlace+ — Llevando esperanza a millones de hogares" },
-      { name: "description", content: "Transmisión cristiana 24/7, oración, donaciones seguras y contenido que transforma vidas. Acompáñanos en vivo desde cualquier lugar." },
+      {
+        name: "description",
+        content:
+          "Transmisión cristiana 24/7, oración, donaciones seguras y contenido que transforma vidas. Acompáñanos en vivo desde cualquier lugar.",
+      },
       { property: "og:title", content: "Enlace+ — Llevando esperanza a millones de hogares" },
-      { property: "og:description", content: "Transmisión cristiana 24/7, oración, donaciones seguras y contenido que transforma vidas. Acompáñanos en vivo desde cualquier lugar." },
+      {
+        property: "og:description",
+        content:
+          "Transmisión cristiana 24/7, oración, donaciones seguras y contenido que transforma vidas. Acompáñanos en vivo desde cualquier lugar.",
+      },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:title", content: "Enlace+ — Llevando esperanza a millones de hogares" },
-      { name: "twitter:description", content: "Transmisión cristiana 24/7, oración, donaciones seguras y contenido que transforma vidas. Acompáñanos en vivo desde cualquier lugar." },
-      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/d69ee80e-5608-48cf-a9d3-042c72aad48a/id-preview-7eb086c4--0e411a92-8a92-4a38-abe2-ccc7e1997389.lovable.app-1781557883556.png" },
-      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/d69ee80e-5608-48cf-a9d3-042c72aad48a/id-preview-7eb086c4--0e411a92-8a92-4a38-abe2-ccc7e1997389.lovable.app-1781557883556.png" },
+      {
+        name: "twitter:description",
+        content:
+          "Transmisión cristiana 24/7, oración, donaciones seguras y contenido que transforma vidas. Acompáñanos en vivo desde cualquier lugar.",
+      },
+      {
+        property: "og:image",
+        content:
+          "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/d69ee80e-5608-48cf-a9d3-042c72aad48a/id-preview-7eb086c4--0e411a92-8a92-4a38-abe2-ccc7e1997389.lovable.app-1781557883556.png",
+      },
+      {
+        name: "twitter:image",
+        content:
+          "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/d69ee80e-5608-48cf-a9d3-042c72aad48a/id-preview-7eb086c4--0e411a92-8a92-4a38-abe2-ccc7e1997389.lovable.app-1781557883556.png",
+      },
     ],
     links: [
+      { rel: "icon", href: "/favicon.png", type: "image/png" },
+      { rel: "apple-touch-icon", href: "/favicon.png" },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
-      { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" },
+      {
+        rel: "stylesheet",
+        href: "https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap",
+      },
       { rel: "stylesheet", href: appCss },
     ],
   }),
@@ -122,6 +149,8 @@ function RootComponent() {
     <QueryClientProvider client={queryClient}>
       {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
       <Outlet />
+      <WhatsAppBubble />
+      <ConsentNotice />
     </QueryClientProvider>
   );
 }

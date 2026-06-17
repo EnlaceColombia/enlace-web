@@ -16,6 +16,9 @@ dist-ssr
 .nitro
 .vercel/output
 *.local
+.env
+.env.*
+!.env.example
 
 # Wrangler / Cloudflare
 .wrangler/
