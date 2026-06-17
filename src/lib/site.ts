@@ -1,5 +1,34 @@
 /** URLs públicas del sitio. */
 
+/** Nombre legal / marca para títulos y redes sociales. */
+export const SITE_NAME = "Corporación Enlace Colombia";
+
+export const SITE_TAGLINE = "Llevando esperanza a millones de hogares";
+
+export const SITE_TITLE = `${SITE_NAME} — ${SITE_TAGLINE}`;
+
+export const SITE_DESCRIPTION =
+  "Transmisión cristiana 24/7, oración, donaciones seguras y contenido que transforma vidas. Acompáñanos en vivo desde cualquier lugar.";
+
+const DEFAULT_SITE_URL = "https://www.enlacecolombia.org";
+
+/** URL pública del sitio (sin barra final). Usada para og:image absoluta en WhatsApp. */
+export function getSiteUrl() {
+  const raw = import.meta.env.VITE_SITE_URL as string | undefined;
+  return (raw?.trim() || DEFAULT_SITE_URL).replace(/\/$/, "");
+}
+
+/**
+ * Imagen de vista previa (WhatsApp, Facebook, X).
+ * - Pon un JPG/PNG en `public/og-image.jpg` (recomendado 1200×630 px), o
+ * - Define `VITE_SITE_OG_IMAGE_URL` en `.env` con la URL completa de otra imagen.
+ */
+export function getSiteOgImageUrl() {
+  const override = import.meta.env.VITE_SITE_OG_IMAGE_URL as string | undefined;
+  if (override?.trim()) return override.trim();
+  return `${getSiteUrl()}/og-image.jpg`;
+}
+
 /** Pasarela de donaciones (ZonaPagos — Corporación Enlace Colombia). */
 export const DONATION_URL = "https://www.zonapagos.com/t_corpenlace/pagos.asp";
 

@@ -77,7 +77,7 @@ export const siteNavItems: NavItem[] = [
               label: "Transparencia",
               desc: "Te rendimos cuentas",
               icon: ShieldCheck,
-              href: "#transparencia",
+              href: REGISTRO_WEB_PATH,
             },
           ],
         },

@@ -44,6 +44,7 @@ import {
   DONATION_URL,
   getWhatsAppUrl,
   LIVE_URL,
+  REGISTRO_WEB_PATH,
   type ScheduleData,
 } from "@/lib/site";
 import { formatSchedulePreviewLabel, ScheduleModal } from "@/components/schedule-modal";
@@ -787,12 +788,12 @@ function Transparency() {
               </div>
             ))}
           </div>
-          <a
-            href="#"
+          <Link
+            to={REGISTRO_WEB_PATH}
             className="mt-8 inline-flex items-center gap-2 h-11 px-5 rounded-full surface-violet text-sm font-semibold"
           >
             Ver último reporte <ArrowRight className="h-4 w-4" />
-          </a>
+          </Link>
         </div>
         <div className="space-y-3">
           {faqs.map((f, i) => (

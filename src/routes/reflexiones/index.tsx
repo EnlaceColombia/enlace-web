@@ -63,10 +63,10 @@ function ReflexionesIndexPage() {
                   <img
                     src={post.coverImageUrl}
                     alt=""
-                    className="aspect-[16/10] w-full object-cover"
+                    className="aspect-16/10 w-full object-cover"
                   />
                 ) : (
-                  <div className="aspect-[16/10] w-full surface-violet opacity-90" />
+                  <div className="aspect-16/10 w-full surface-violet opacity-90" />
                 )}
                 <div className="p-5">
                   <time className="text-xs font-semibold text-muted-foreground">

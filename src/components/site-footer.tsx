@@ -18,7 +18,13 @@ import enlaceLogo from "@/assets/enlace-texto-blanco.svg";
 import { openConsentSettings } from "@/components/consent-notice";
 import { ENLACE_PLUS_LINKS } from "@/lib/enlace-plus-links";
 import { isExternalHref, resolveHomeHref, resolveNavHref } from "@/lib/site-nav";
-import { APP_STORE_URL, DONATION_URL, GOOGLE_PLAY_URL, LIVE_URL } from "@/lib/site";
+import {
+  APP_STORE_URL,
+  DONATION_URL,
+  GOOGLE_PLAY_URL,
+  LIVE_URL,
+  REGISTRO_WEB_PATH,
+} from "@/lib/site";
 
 const donateLinkProps = {
   href: DONATION_URL,
@@ -52,7 +58,7 @@ const ministryLinks = [
   { label: "Oración", href: "#oracion" },
   { label: "Donaciones", href: "#donar" },
   { label: "Maratónica", href: "/maratonica" },
-  { label: "Transparencia", href: "#transparencia" },
+  { label: "Transparencia", href: REGISTRO_WEB_PATH },
   { label: "Testimonios", href: "#testimonios" },
 ];
 
