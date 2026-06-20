@@ -10,6 +10,8 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as TerminosRouteImport } from './routes/terminos'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
+import { Route as RobotsDottxtRouteImport } from './routes/robots[.]txt'
 import { Route as RegistroWebRouteImport } from './routes/registro-web'
 import { Route as PrivacidadRouteImport } from './routes/privacidad'
 import { Route as MaratonicaRouteImport } from './routes/maratonica'
@@ -28,6 +30,16 @@ import { Route as AdminBlogsIdRouteImport } from './routes/admin/blogs/$id'
 const TerminosRoute = TerminosRouteImport.update({
   id: '/terminos',
   path: '/terminos',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RobotsDottxtRoute = RobotsDottxtRouteImport.update({
+  id: '/robots.txt',
+  path: '/robots.txt',
   getParentRoute: () => rootRouteImport,
 } as any)
 const RegistroWebRoute = RegistroWebRouteImport.update({
@@ -108,6 +120,8 @@ export interface FileRoutesByFullPath {
   '/maratonica': typeof MaratonicaRoute
   '/privacidad': typeof PrivacidadRoute
   '/registro-web': typeof RegistroWebRoute
+  '/robots.txt': typeof RobotsDottxtRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/terminos': typeof TerminosRoute
   '/admin/dashboard': typeof AdminDashboardRoute
   '/admin/maratonica': typeof AdminMaratonicaRoute
@@ -124,6 +138,8 @@ export interface FileRoutesByTo {
   '/maratonica': typeof MaratonicaRoute
   '/privacidad': typeof PrivacidadRoute
   '/registro-web': typeof RegistroWebRoute
+  '/robots.txt': typeof RobotsDottxtRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/terminos': typeof TerminosRoute
   '/admin/dashboard': typeof AdminDashboardRoute
   '/admin/maratonica': typeof AdminMaratonicaRoute
@@ -142,6 +158,8 @@ export interface FileRoutesById {
   '/maratonica': typeof MaratonicaRoute
   '/privacidad': typeof PrivacidadRoute
   '/registro-web': typeof RegistroWebRoute
+  '/robots.txt': typeof RobotsDottxtRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/terminos': typeof TerminosRoute
   '/admin/dashboard': typeof AdminDashboardRoute
   '/admin/maratonica': typeof AdminMaratonicaRoute
@@ -161,6 +179,8 @@ export interface FileRouteTypes {
     | '/maratonica'
     | '/privacidad'
     | '/registro-web'
+    | '/robots.txt'
+    | '/sitemap.xml'
     | '/terminos'
     | '/admin/dashboard'
     | '/admin/maratonica'
@@ -177,6 +197,8 @@ export interface FileRouteTypes {
     | '/maratonica'
     | '/privacidad'
     | '/registro-web'
+    | '/robots.txt'
+    | '/sitemap.xml'
     | '/terminos'
     | '/admin/dashboard'
     | '/admin/maratonica'
@@ -194,6 +216,8 @@ export interface FileRouteTypes {
     | '/maratonica'
     | '/privacidad'
     | '/registro-web'
+    | '/robots.txt'
+    | '/sitemap.xml'
     | '/terminos'
     | '/admin/dashboard'
     | '/admin/maratonica'
@@ -212,6 +236,8 @@ export interface RootRouteChildren {
   MaratonicaRoute: typeof MaratonicaRoute
   PrivacidadRoute: typeof PrivacidadRoute
   RegistroWebRoute: typeof RegistroWebRoute
+  RobotsDottxtRoute: typeof RobotsDottxtRoute
+  SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   TerminosRoute: typeof TerminosRoute
   ReflexionesSlugRoute: typeof ReflexionesSlugRoute
   ReflexionesIndexRoute: typeof ReflexionesIndexRoute
@@ -224,6 +250,20 @@ declare module '@tanstack/react-router' {
       path: '/terminos'
       fullPath: '/terminos'
       preLoaderRoute: typeof TerminosRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/robots.txt': {
+      id: '/robots.txt'
+      path: '/robots.txt'
+      fullPath: '/robots.txt'
+      preLoaderRoute: typeof RobotsDottxtRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/registro-web': {
@@ -356,6 +396,8 @@ const rootRouteChildren: RootRouteChildren = {
   MaratonicaRoute: MaratonicaRoute,
   PrivacidadRoute: PrivacidadRoute,
   RegistroWebRoute: RegistroWebRoute,
+  RobotsDottxtRoute: RobotsDottxtRoute,
+  SitemapDotxmlRoute: SitemapDotxmlRoute,
   TerminosRoute: TerminosRoute,
   ReflexionesSlugRoute: ReflexionesSlugRoute,
   ReflexionesIndexRoute: ReflexionesIndexRoute,

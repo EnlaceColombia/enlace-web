@@ -1,21 +1,17 @@
 import { createFileRoute } from "@tanstack/react-router";
 
 import { LegalPageLayout, LegalSection } from "@/components/legal-page-layout";
+import { buildPublicPageHead } from "@/lib/seo/meta";
 import { DONATION_URL } from "@/lib/site";
 
 export const Route = createFileRoute("/privacidad")({
-  head: () => ({
-    meta: [
-      {
-        title: "Política de tratamiento de datos — Enlace Colombia",
-      },
-      {
-        name: "description",
-        content:
-          "Política de tratamiento de datos personales de la Corporación Enlace Colombia — CEC, conforme a la Ley 1581 de 2012.",
-      },
-    ],
-  }),
+  head: () =>
+    buildPublicPageHead({
+      path: "/privacidad",
+      title: "Política de tratamiento de datos — Corporación Enlace Colombia",
+      description:
+        "Política de tratamiento de datos personales de la Corporación Enlace Colombia — CEC, conforme a la Ley 1581 de 2012.",
+    }),
   component: PrivacidadPage,
 });
 

@@ -1,19 +1,17 @@
 import { createFileRoute } from "@tanstack/react-router";
 
 import { LegalPageLayout, LegalSection } from "@/components/legal-page-layout";
+import { buildPublicPageHead } from "@/lib/seo/meta";
 import { DONATION_URL } from "@/lib/site";
 
 export const Route = createFileRoute("/terminos")({
-  head: () => ({
-    meta: [
-      { title: "Términos y condiciones — Enlace Colombia" },
-      {
-        name: "description",
-        content:
-          "Términos y condiciones de uso del sitio web de la Corporación Enlace Colombia — CEC.",
-      },
-    ],
-  }),
+  head: () =>
+    buildPublicPageHead({
+      path: "/terminos",
+      title: "Términos y condiciones — Corporación Enlace Colombia",
+      description:
+        "Términos y condiciones de uso del sitio web de la Corporación Enlace Colombia — CEC.",
+    }),
   component: TerminosPage,
 });
 

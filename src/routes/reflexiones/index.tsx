@@ -5,22 +5,20 @@ import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { getPublishedBlogPosts } from "@/lib/api/blog.functions";
 import { formatBlogDate } from "@/lib/blog/types";
+import { buildPublicPageHead } from "@/lib/seo/meta";
 
 export const Route = createFileRoute("/reflexiones/")({
   loader: async () => {
     const posts = await getPublishedBlogPosts();
     return { posts };
   },
-  head: () => ({
-    meta: [
-      { title: "Reflexiones — Corporación Enlace Colombia" },
-      {
-        name: "description",
-        content:
-          "Devocionales, enseñanzas y palabras de aliento de los pastores y consejeros de Enlace Colombia.",
-      },
-    ],
-  }),
+  head: () =>
+    buildPublicPageHead({
+      path: "/reflexiones",
+      title: "Reflexiones — Corporación Enlace Colombia",
+      description:
+        "Devocionales, enseñanzas y palabras de aliento de los pastores y consejeros de Enlace Colombia.",
+    }),
   component: ReflexionesIndexPage,
 });
 

@@ -2,18 +2,16 @@ import { createFileRoute } from "@tanstack/react-router";
 
 import { LegalPageLayout, LegalSection } from "@/components/legal-page-layout";
 import { openConsentSettings } from "@/components/consent-notice";
+import { buildPublicPageHead } from "@/lib/seo/meta";
 
 export const Route = createFileRoute("/cookies")({
-  head: () => ({
-    meta: [
-      { title: "Política de cookies — Enlace Colombia" },
-      {
-        name: "description",
-        content:
-          "Información sobre el uso de cookies en el sitio web de la Corporación Enlace Colombia — CEC.",
-      },
-    ],
-  }),
+  head: () =>
+    buildPublicPageHead({
+      path: "/cookies",
+      title: "Política de cookies — Corporación Enlace Colombia",
+      description:
+        "Información sobre el uso de cookies en el sitio web de la Corporación Enlace Colombia — CEC.",
+    }),
   component: CookiesPage,
 });
 

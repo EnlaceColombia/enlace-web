@@ -6,6 +6,8 @@ import { SiteHeader } from "@/components/site-header";
 import { BlogMarkdown } from "@/components/blog-markdown";
 import { getBlogPostBySlug } from "@/lib/api/blog.functions";
 import { formatBlogDate } from "@/lib/blog/types";
+import { buildPublicPageHead } from "@/lib/seo/meta";
+import { getSiteOgImageUrl, getSiteUrl } from "@/lib/site";
 
 export const Route = createFileRoute("/reflexiones/$slug")({
   loader: async ({ params }) => {
@@ -13,15 +15,47 @@ export const Route = createFileRoute("/reflexiones/$slug")({
     if (!post) throw new Error("Entrada no encontrada");
     return { post };
   },
-  head: ({ loaderData }) => ({
-    meta: [
-      { title: `${loaderData.post.title} — Reflexiones | Enlace Colombia` },
-      {
-        name: "description",
-        content: loaderData.post.excerpt || loaderData.post.title,
-      },
-    ],
-  }),
+  head: ({ loaderData, params }) => {
+    const title = `${loaderData.post.title} — Reflexiones | Corporación Enlace Colombia`;
+    const description = loaderData.post.excerpt || loaderData.post.title;
+    const head = buildPublicPageHead({
+      path: `/reflexiones/${params.slug}`,
+      title,
+      description,
+    });
+
+    return {
+      ...head,
+      scripts: [
+        {
+          type: "application/ld+json",
+          children: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Article",
+            headline: loaderData.post.title,
+            description,
+            image: loaderData.post.coverImageUrl ?? getSiteOgImageUrl(),
+            datePublished: loaderData.post.publishedAt,
+            dateModified: loaderData.post.updatedAt,
+            author: {
+              "@type": "Organization",
+              name: "Corporación Enlace Colombia",
+              url: getSiteUrl(),
+            },
+            publisher: {
+              "@type": "Organization",
+              name: "Corporación Enlace Colombia",
+              logo: {
+                "@type": "ImageObject",
+                url: `${getSiteUrl()}/favicon.png`,
+              },
+            },
+            mainEntityOfPage: `${getSiteUrl()}/reflexiones/${params.slug}`,
+          }),
+        },
+      ],
+    };
+  },
   component: ReflexionPostPage,
 });
 

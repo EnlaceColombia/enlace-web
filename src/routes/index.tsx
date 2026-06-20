@@ -45,8 +45,11 @@ import {
   getWhatsAppUrl,
   LIVE_URL,
   REGISTRO_WEB_PATH,
+  SITE_DESCRIPTION,
+  SITE_TITLE,
   type ScheduleData,
 } from "@/lib/site";
+import { buildPublicPageHead } from "@/lib/seo/meta";
 import { formatSchedulePreviewLabel, ScheduleModal } from "@/components/schedule-modal";
 import { LivePlayer } from "@/components/live-player";
 import { SiteHeader } from "@/components/site-header";
@@ -91,6 +94,12 @@ export const Route = createFileRoute("/")({
       return { schedule: null, blogPosts: [] };
     }
   },
+  head: () =>
+    buildPublicPageHead({
+      path: "/",
+      title: SITE_TITLE,
+      description: SITE_DESCRIPTION,
+    }),
   component: Index,
 });
 

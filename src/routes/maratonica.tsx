@@ -12,22 +12,20 @@ import {
   MARATONICA_TESTIMONIALS,
 } from "@/lib/maratonica/types";
 import { DONATION_URL, getWhatsAppUrl, LIVE_URL, WHATSAPP_DEFAULT_MESSAGE } from "@/lib/site";
+import { buildPublicPageHead } from "@/lib/seo/meta";
 
 export const Route = createFileRoute("/maratonica")({
   loader: async () => {
     const config = await getMaratonicaPageConfig();
     return { config };
   },
-  head: () => ({
-    meta: [
-      { title: "Maratónica — Corporación Enlace Colombia" },
-      {
-        name: "description",
-        content:
-          "Participa en la Maratónica de Enlace Colombia: oración, fe y siembra. El Señor tiene una respuesta para ti.",
-      },
-    ],
-  }),
+  head: () =>
+    buildPublicPageHead({
+      path: "/maratonica",
+      title: "Maratónica — Corporación Enlace Colombia",
+      description:
+        "Participa en la Maratónica de Enlace Colombia: oración, fe y siembra. El Señor tiene una respuesta para ti.",
+    }),
   component: MaratonicaPage,
 });
 

@@ -20,13 +20,13 @@ export function getSiteUrl() {
 
 /**
  * Imagen de vista previa (WhatsApp, Facebook, X).
- * - Pon un JPG/PNG en `public/og-image.jpg` (recomendado 1200×630 px), o
+ * - Pon un PNG/JPG en `public/og-image.png` (recomendado 1200×630 px), o
  * - Define `VITE_SITE_OG_IMAGE_URL` en `.env` con la URL completa de otra imagen.
  */
 export function getSiteOgImageUrl() {
   const override = import.meta.env.VITE_SITE_OG_IMAGE_URL as string | undefined;
   if (override?.trim()) return override.trim();
-  return `${getSiteUrl()}/og-image.jpg`;
+  return `${getSiteUrl()}/og-image.png`;
 }
 
 /** Pasarela de donaciones (ZonaPagos — Corporación Enlace Colombia). */

@@ -1,0 +1,39 @@
+{
+  "redirects": [
+    {
+      "source": "/maratonica/",
+      "destination": "/maratonica",
+      "permanent": true
+    },
+    {
+      "source": "/contactenos/registro-web/",
+      "destination": "/registro-web",
+      "permanent": true
+    },
+    {
+      "source": "/contactenos/registro-web",
+      "destination": "/registro-web",
+      "permanent": true
+    },
+    {
+      "source": "/reflexiones/",
+      "destination": "/reflexiones",
+      "permanent": true
+    },
+    {
+      "source": "/privacidad/",
+      "destination": "/privacidad",
+      "permanent": true
+    },
+    {
+      "source": "/terminos/",
+      "destination": "/terminos",
+      "permanent": true
+    },
+    {
+      "source": "/cookies/",
+      "destination": "/cookies",
+      "permanent": true
+    }
+  ]
+}

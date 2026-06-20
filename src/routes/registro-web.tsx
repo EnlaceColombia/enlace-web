@@ -5,21 +5,18 @@ import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { getRegistroWebPageData } from "@/lib/api/registro-web.functions";
 import { getRegistroWebPageTitle } from "@/lib/registro-web/types";
+import { buildPublicPageHead } from "@/lib/seo/meta";
 
 export const Route = createFileRoute("/registro-web")({
   loader: async () => getRegistroWebPageData(),
   head: ({ loaderData }) => {
-    const title = loaderData ? getRegistroWebPageTitle(loaderData.config) : "Registro web";
-    return {
-      meta: [
-        { title: `${title} — Corporación Enlace Colombia` },
-        {
-          name: "description",
-          content:
-            "Documentos de transparencia y cumplimiento normativo (ESAL) de Corporación Enlace Colombia.",
-        },
-      ],
-    };
+    const pageTitle = loaderData ? getRegistroWebPageTitle(loaderData.config) : "Registro web";
+    return buildPublicPageHead({
+      path: "/registro-web",
+      title: `${pageTitle} — Corporación Enlace Colombia`,
+      description:
+        "Documentos de transparencia y cumplimiento normativo (ESAL) de Corporación Enlace Colombia.",
+    });
   },
   component: RegistroWebPage,
 });
