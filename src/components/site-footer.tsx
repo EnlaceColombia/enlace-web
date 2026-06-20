@@ -227,6 +227,34 @@ export function SiteFooter() {
             </button>
           </div>
         </div>
+        <p className="mt-4 text-center text-xs text-white/40">
+          <span className="inline-flex flex-wrap items-center justify-center gap-x-1 gap-y-1">
+            Hecho con
+            <Heart
+              aria-hidden
+              className="h-3.5 w-3.5 shrink-0"
+              style={{ fill: "url(#footer-heart-gradient)", stroke: "url(#footer-heart-gradient)" }}
+            />
+            amor por{" "}
+            <a
+              href="https://mordecaitech.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-white/55 hover:text-gold transition"
+            >
+              Mordecai Technologies LLC
+            </a>
+          </span>
+        </p>
+        <svg width="0" height="0" className="absolute" aria-hidden>
+          <defs>
+            <linearGradient id="footer-heart-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stopColor="#f472b6" />
+              <stop offset="45%" stopColor="#ec4899" />
+              <stop offset="100%" stopColor="#f43f5e" />
+            </linearGradient>
+          </defs>
+        </svg>
       </div>
     </footer>
   );
