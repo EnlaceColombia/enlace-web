@@ -1,23 +1,24 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Heart, MapPin, Phone, Quote, Star, Clock, HandHeart } from "lucide-react";
+import { Heart, MapPin, Phone, Clock, HandHeart } from "lucide-react";
 
 import heroImg from "@/assets/hero-familia.jpg";
 import { MaratonicaCountdown } from "@/components/maratonica-countdown";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
+import { TestimonialsSection } from "@/components/testimonials-section";
 import { getMaratonicaPageConfig } from "@/lib/api/maratonica.functions";
-import {
-  getMaratonicaCountdownTarget,
-  getMaratonicaPhase,
-  MARATONICA_TESTIMONIALS,
-} from "@/lib/maratonica/types";
+import { getPublishedTestimonials } from "@/lib/api/testimonials.functions";
+import { getMaratonicaCountdownTarget, getMaratonicaPhase } from "@/lib/maratonica/types";
 import { DONATION_URL, getWhatsAppUrl, LIVE_URL, WHATSAPP_DEFAULT_MESSAGE } from "@/lib/site";
 import { buildPublicPageHead } from "@/lib/seo/meta";
 
 export const Route = createFileRoute("/maratonica")({
   loader: async () => {
-    const config = await getMaratonicaPageConfig();
-    return { config };
+    const [config, testimonials] = await Promise.all([
+      getMaratonicaPageConfig(),
+      getPublishedTestimonials(),
+    ]);
+    return { config, testimonials };
   },
   head: () =>
     buildPublicPageHead({
@@ -30,7 +31,7 @@ export const Route = createFileRoute("/maratonica")({
 });
 
 function MaratonicaPage() {
-  const { config } = Route.useLoaderData();
+  const { config, testimonials } = Route.useLoaderData();
   const phase = getMaratonicaPhase(config);
   const countdownTarget = getMaratonicaCountdownTarget(config);
 
@@ -190,44 +191,15 @@ function MaratonicaPage() {
           </section>
         )}
 
-        {/* Testimonios */}
-        <section className="py-20 sm:py-28">
-          <div className="mx-auto max-w-7xl px-4 sm:px-6">
-            <div className="max-w-2xl mb-14">
-              <span className="text-xs font-semibold tracking-widest uppercase text-violet">
-                Testimonios
-              </span>
-              <h2 className="mt-3 text-4xl sm:text-5xl font-extrabold text-foreground">
-                Dios sigue <span className="text-violet">respondiendo</span>
-              </h2>
-            </div>
-            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-              {MARATONICA_TESTIMONIALS.map((t) => (
-                <div
-                  key={t.name}
-                  className="rounded-2xl bg-card border border-border p-7 shadow-card relative"
-                >
-                  <Quote className="absolute top-6 right-6 h-8 w-8 text-violet/15" />
-                  <div className="flex gap-1 text-gold mb-4">
-                    {Array.from({ length: 5 }).map((_, i) => (
-                      <Star key={i} className="h-4 w-4 fill-current" />
-                    ))}
-                  </div>
-                  <p className="text-foreground leading-relaxed">“{t.text}”</p>
-                  <div className="mt-6 flex items-center gap-3 pt-5 border-t border-border">
-                    <div className="h-10 w-10 rounded-full surface-violet grid place-items-center font-bold text-white">
-                      {t.name[0]}
-                    </div>
-                    <div>
-                      <p className="font-semibold text-foreground text-sm">{t.name}</p>
-                      <p className="text-xs text-muted-foreground">{t.place}</p>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
+        <TestimonialsSection
+          testimonials={testimonials}
+          className="bg-background"
+          title={
+            <>
+              Dios sigue <span className="text-violet">respondiendo</span>
+            </>
+          }
+        />
 
         {/* Contacto */}
         <section className="py-16 sm:py-20 surface-dark">

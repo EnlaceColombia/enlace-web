@@ -1,5 +1,5 @@
 import { Link, createFileRoute } from "@tanstack/react-router";
-import { ArrowRight, FileText, Newspaper, Radio } from "lucide-react";
+import { ArrowRight, FileText, MessageCircleHeart, Newspaper, Radio } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { useRequireAdmin } from "@/lib/admin/use-require-admin";
@@ -15,6 +15,13 @@ const sections = [
     to: "/admin/blogs",
     icon: Newspaper,
     cta: "Gestionar entradas",
+  },
+  {
+    title: "Testimonios",
+    description: "Actualiza las historias del carrusel en inicio y Maratónica.",
+    to: "/admin/testimonios",
+    icon: MessageCircleHeart,
+    cta: "Gestionar testimonios",
   },
   {
     title: "Maratónica",

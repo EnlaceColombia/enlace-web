@@ -17,7 +17,6 @@ import {
   ArrowRight,
   ChevronDown,
   Quote,
-  Star,
   Headphones,
   Gift,
   UserCheck,
@@ -36,7 +35,9 @@ import progEnlacePlus from "@/assets/program-enlaceplus.jpg";
 import nosotrosFamilia from "@/assets/family.png";
 import { getSchedule } from "@/lib/api/live.functions";
 import { getPublishedBlogPosts } from "@/lib/api/blog.functions";
+import { getPublishedTestimonials } from "@/lib/api/testimonials.functions";
 import type { BlogPost } from "@/lib/blog/types";
+import type { Testimonial } from "@/lib/testimonials/types";
 import { formatBlogDate } from "@/lib/blog/types";
 import { ENLACE_PLUS_LINKS } from "@/lib/enlace-plus-links";
 import {
@@ -54,6 +55,7 @@ import { formatSchedulePreviewLabel, ScheduleModal } from "@/components/schedule
 import { LivePlayer } from "@/components/live-player";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
+import { TestimonialsSection } from "@/components/testimonials-section";
 
 const donateLinkProps = {
   href: DONATION_URL,
@@ -82,16 +84,21 @@ function formatCopCompact(value: number) {
 }
 
 export const Route = createFileRoute("/")({
-  loader: async (): Promise<{ schedule: ScheduleData | null; blogPosts: BlogPost[] }> => {
+  loader: async (): Promise<{
+    schedule: ScheduleData | null;
+    blogPosts: BlogPost[];
+    testimonials: Testimonial[];
+  }> => {
     try {
-      const [schedule, blogPosts] = await Promise.all([
+      const [schedule, blogPosts, testimonials] = await Promise.all([
         getSchedule(),
         getPublishedBlogPosts().catch(() => [] as BlogPost[]),
+        getPublishedTestimonials().catch(() => [] as Testimonial[]),
       ]);
-      return { schedule, blogPosts: blogPosts.slice(0, 3) };
+      return { schedule, blogPosts: blogPosts.slice(0, 3), testimonials };
     } catch (error) {
       console.error("No se pudo cargar la programación:", error);
-      return { schedule: null, blogPosts: [] };
+      return { schedule: null, blogPosts: [], testimonials: [] };
     }
   },
   head: () =>
@@ -149,7 +156,7 @@ const programs = [
 ];
 
 function Index() {
-  const { schedule, blogPosts } = Route.useLoaderData();
+  const { schedule, blogPosts, testimonials } = Route.useLoaderData();
 
   return (
     <div className="min-h-screen bg-background text-foreground">
@@ -164,7 +171,14 @@ function Index() {
         <PrayerSection />
         <DonateSection />
         <Impact />
-        <Testimonials />
+        <TestimonialsSection
+          testimonials={testimonials}
+          title={
+            <>
+              Historias que <span className="text-violet">inspiran</span>
+            </>
+          }
+        />
         <Reflexiones posts={blogPosts} />
         <Transparency />
         <Mission />
@@ -677,71 +691,6 @@ function Impact() {
             <div key={s.l} className="rounded-2xl p-8 text-center surface-violet glow-violet">
               <p className="text-5xl sm:text-6xl font-extrabold text-gradient-gold">{s.n}</p>
               <p className="mt-2 text-sm font-medium text-white/85">{s.l}</p>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-/* ---------------- TESTIMONIOS ---------------- */
-function Testimonials() {
-  const items = [
-    {
-      name: "Mariela Gómez",
-      place: "Maratónica · Noviembre 2020",
-      text: "Mi hijo estaba preparado para que le amputaran una pierna por la ruptura del nervio ciático. Llamé a Enlace a pedir oración por su sanidad. Dios escuchó: el nervio fue restaurado y ya no le quitaron su pierna. ¡Gloria a Dios!",
-    },
-    {
-      name: "Marina Camargo",
-      place: "Maratónica · Noviembre 2020",
-      text: "Estaba preparada para una cirugía de hernia. Me conecté con la Maratónica de Enlace y ofrendé por mi sanidad. Fui al chequeo médico y la hernia ya no estaba. ¡Desapareció! ¡Gloria a Dios!",
-    },
-    {
-      name: "Ana Florián",
-      place: "Maratónica · Febrero 2020",
-      text: "Después de más de un año sin que mi hija consiguiera empleo, sembré en la Maratónica de febrero 2020. Dios respondió a ese acto de fe y hoy mi hija goza de ese empleo por el cual creí al Señor. ¡Gloria a Dios!",
-    },
-    {
-      name: "Rosalba Barragán",
-      place: "Maratónica · Agosto 2020",
-      text: "Creí la Palabra y recibí un milagro: Dios borró una deuda de 5 millones. ¡Gloria al Señor!",
-    },
-  ];
-  return (
-    <section id="testimonios" className="py-20 sm:py-28 bg-secondary/40">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6">
-        <div className="max-w-2xl mb-14">
-          <span className="text-xs font-semibold tracking-widest uppercase text-violet">
-            Testimonios
-          </span>
-          <h2 className="mt-3 text-4xl sm:text-5xl font-extrabold text-foreground">
-            Historias que <span className="text-violet">inspiran</span>
-          </h2>
-        </div>
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {items.map((t) => (
-            <div
-              key={t.name}
-              className="rounded-2xl bg-card border border-border p-7 shadow-card relative"
-            >
-              <Quote className="absolute top-6 right-6 h-8 w-8 text-violet/15" />
-              <div className="flex gap-1 text-gold mb-4">
-                {Array.from({ length: 5 }).map((_, i) => (
-                  <Star key={i} className="h-4 w-4 fill-current" />
-                ))}
-              </div>
-              <p className="text-foreground leading-relaxed">“{t.text}”</p>
-              <div className="mt-6 flex items-center gap-3 pt-5 border-t border-border">
-                <div className="h-10 w-10 rounded-full surface-violet grid place-items-center font-bold">
-                  {t.name[0]}
-                </div>
-                <div>
-                  <p className="font-semibold text-foreground text-sm">{t.name}</p>
-                  <p className="text-xs text-muted-foreground">{t.place}</p>
-                </div>
-              </div>
             </div>
           ))}
         </div>

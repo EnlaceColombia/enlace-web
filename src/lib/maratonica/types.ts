@@ -31,29 +31,6 @@ export const DEFAULT_MARATONICA_CONFIG: MaratonicaConfig = {
   prayerPhoneHint: "Peticiones de oración",
 };
 
-export const MARATONICA_TESTIMONIALS = [
-  {
-    name: "Mariela Gómez",
-    place: "Maratónica · Noviembre 2020",
-    text: "Mi hijo estaba preparado para que le amputaran una pierna por la ruptura del nervio ciático. Llamé a Enlace a pedir oración por su sanidad. Dios escuchó: el nervio fue restaurado y ya no le quitaron su pierna. ¡Gloria a Dios!",
-  },
-  {
-    name: "Marina Camargo",
-    place: "Maratónica · Noviembre 2020",
-    text: "Estaba preparada para una cirugía de hernia. Me conecté con la Maratónica de Enlace y ofrendé por mi sanidad. Fui al chequeo médico y la hernia ya no estaba. ¡Desapareció! ¡Gloria a Dios!",
-  },
-  {
-    name: "Ana Florián",
-    place: "Maratónica · Febrero 2020",
-    text: "Después de más de un año sin que mi hija consiguiera empleo, sembré en la Maratónica de febrero 2020. Dios respondió a ese acto de fe y hoy mi hija goza de ese empleo por el cual creí al Señor. ¡Gloria a Dios!",
-  },
-  {
-    name: "Rosalba Barragán",
-    place: "Maratónica · Agosto 2020",
-    text: "Creí la Palabra y recibí un milagro: Dios borró una deuda de 5 millones. ¡Gloria al Señor!",
-  },
-] as const;
-
 export function getMaratonicaPhase(
   config: MaratonicaConfig,
   now = Date.now(),

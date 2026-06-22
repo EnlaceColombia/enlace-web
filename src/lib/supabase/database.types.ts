@@ -44,6 +44,17 @@ export type RegistroWebDocumentRow = {
   updated_at: string;
 };
 
+export type TestimonialRow = {
+  id: string;
+  name: string;
+  place: string;
+  text: string;
+  sort_order: number;
+  enabled: boolean;
+  created_at: string;
+  updated_at: string;
+};
+
 export type Database = {
   public: {
     Tables: {
@@ -93,6 +104,16 @@ export type Database = {
           updated_at?: string;
         };
         Update: Partial<Omit<RegistroWebDocumentRow, "id">>;
+        Relationships: [];
+      };
+      testimonials: {
+        Row: TestimonialRow;
+        Insert: Omit<TestimonialRow, "id" | "created_at" | "updated_at"> & {
+          id?: string;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Update: Partial<Omit<TestimonialRow, "id">>;
         Relationships: [];
       };
     };
