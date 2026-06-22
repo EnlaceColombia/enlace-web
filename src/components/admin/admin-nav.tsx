@@ -1,5 +1,5 @@
 import { Link, useRouterState } from "@tanstack/react-router";
-import { FileText, LayoutDashboard, MessageCircleHeart, Newspaper, Radio } from "lucide-react";
+import { FileText, LayoutDashboard, MessageCircleHeart, Newspaper, Radio, Users } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 
@@ -9,6 +9,7 @@ const navItems = [
   { to: "/admin/testimonios", label: "Testimonios", icon: MessageCircleHeart },
   { to: "/admin/maratonica", label: "Maratónica", icon: Radio },
   { to: "/admin/registro-web", label: "Registro web", icon: FileText },
+  { to: "/admin/usuarios", label: "Equipo", icon: Users },
 ] as const;
 
 export function AdminNav() {

@@ -1,6 +1,7 @@
 import { Link, Outlet, createFileRoute, useNavigate } from "@tanstack/react-router";
 import { LogOut } from "lucide-react";
 
+import { AdminAuthLayout } from "@/components/admin/admin-auth-layout";
 import { AdminNav } from "@/components/admin/admin-nav";
 import { Button } from "@/components/ui/button";
 import { AdminSessionProvider, useAdminSession } from "@/lib/admin/admin-session-context";
@@ -32,14 +33,14 @@ function AdminLayoutContent() {
   if (!configured) {
     return (
       <AdminShell showNav={false}>
-        <div className="max-w-lg mx-auto rounded-2xl border border-border bg-card p-8 shadow-card">
-          <h1 className="text-xl font-bold text-foreground">Backoffice no configurado</h1>
-          <p className="mt-3 text-sm text-muted-foreground leading-relaxed">
-            Agrega <code className="text-violet">VITE_SUPABASE_URL</code> y{" "}
-            <code className="text-violet">VITE_SUPABASE_PUBLISHABLE_KEY</code> en tu archivo{" "}
-            <code className="text-violet">.env</code> y reinicia el servidor de desarrollo.
+        <AdminAuthLayout
+          title="Backoffice no configurado"
+          description="El acceso al panel aún no está listo en este entorno. Contacta al soporte técnico del sitio."
+        >
+          <p className="text-sm text-muted-foreground leading-relaxed text-center">
+            Si eres desarrollador, revisa las variables de entorno de Supabase en el servidor.
           </p>
-        </div>
+        </AdminAuthLayout>
       </AdminShell>
     );
   }
@@ -47,7 +48,12 @@ function AdminLayoutContent() {
   if (loading) {
     return (
       <AdminShell showNav={false}>
-        <p className="text-sm text-muted-foreground">Cargando sesión…</p>
+        <AdminAuthLayout title="Verificando acceso">
+          <div className="flex items-center justify-center gap-2 py-6 text-muted-foreground">
+            <span className="h-5 w-5 animate-spin rounded-full border-2 border-violet border-t-transparent" />
+            Un momento…
+          </div>
+        </AdminAuthLayout>
       </AdminShell>
     );
   }
@@ -92,7 +98,7 @@ function AdminLayoutContent() {
 function AdminShell({ children, showNav }: { children: React.ReactNode; showNav: boolean }) {
   return (
     <div className="min-h-screen bg-background text-foreground flex flex-col">
-      <div className="flex-1">{children}</div>
+      <div className={showNav ? "flex-1" : "flex-1 flex flex-col"}>{children}</div>
       <footer className="border-t border-border py-4 text-center text-xs text-muted-foreground">
         <Link to="/" className="hover:text-violet transition">
           Volver al sitio público

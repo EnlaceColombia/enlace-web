@@ -1,5 +1,5 @@
 import { Link, createFileRoute } from "@tanstack/react-router";
-import { ArrowRight, FileText, MessageCircleHeart, Newspaper, Radio } from "lucide-react";
+import { ArrowRight, FileText, MessageCircleHeart, Newspaper, Radio, Users } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { useRequireAdmin } from "@/lib/admin/use-require-admin";
@@ -36,6 +36,13 @@ const sections = [
     to: "/admin/registro-web",
     icon: FileText,
     cta: "Gestionar documentos",
+  },
+  {
+    title: "Equipo del panel",
+    description: "Invita a más personas para que administren el sitio desde aquí.",
+    to: "/admin/usuarios",
+    icon: Users,
+    cta: "Gestionar accesos",
   },
 ] as const;
 

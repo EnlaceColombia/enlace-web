@@ -21,6 +21,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as ReflexionesIndexRouteImport } from './routes/reflexiones/index'
 import { Route as AdminIndexRouteImport } from './routes/admin/index'
 import { Route as ReflexionesSlugRouteImport } from './routes/reflexiones/$slug'
+import { Route as AdminUsuariosRouteImport } from './routes/admin/usuarios'
 import { Route as AdminTestimoniosRouteImport } from './routes/admin/testimonios'
 import { Route as AdminRegistroWebRouteImport } from './routes/admin/registro-web'
 import { Route as AdminMaratonicaRouteImport } from './routes/admin/maratonica'
@@ -88,6 +89,11 @@ const ReflexionesSlugRoute = ReflexionesSlugRouteImport.update({
   path: '/reflexiones/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminUsuariosRoute = AdminUsuariosRouteImport.update({
+  id: '/usuarios',
+  path: '/usuarios',
+  getParentRoute: () => AdminRouteRoute,
+} as any)
 const AdminTestimoniosRoute = AdminTestimoniosRouteImport.update({
   id: '/testimonios',
   path: '/testimonios',
@@ -133,6 +139,7 @@ export interface FileRoutesByFullPath {
   '/admin/maratonica': typeof AdminMaratonicaRoute
   '/admin/registro-web': typeof AdminRegistroWebRoute
   '/admin/testimonios': typeof AdminTestimoniosRoute
+  '/admin/usuarios': typeof AdminUsuariosRoute
   '/reflexiones/$slug': typeof ReflexionesSlugRoute
   '/admin/': typeof AdminIndexRoute
   '/reflexiones/': typeof ReflexionesIndexRoute
@@ -152,6 +159,7 @@ export interface FileRoutesByTo {
   '/admin/maratonica': typeof AdminMaratonicaRoute
   '/admin/registro-web': typeof AdminRegistroWebRoute
   '/admin/testimonios': typeof AdminTestimoniosRoute
+  '/admin/usuarios': typeof AdminUsuariosRoute
   '/reflexiones/$slug': typeof ReflexionesSlugRoute
   '/admin': typeof AdminIndexRoute
   '/reflexiones': typeof ReflexionesIndexRoute
@@ -173,6 +181,7 @@ export interface FileRoutesById {
   '/admin/maratonica': typeof AdminMaratonicaRoute
   '/admin/registro-web': typeof AdminRegistroWebRoute
   '/admin/testimonios': typeof AdminTestimoniosRoute
+  '/admin/usuarios': typeof AdminUsuariosRoute
   '/reflexiones/$slug': typeof ReflexionesSlugRoute
   '/admin/': typeof AdminIndexRoute
   '/reflexiones/': typeof ReflexionesIndexRoute
@@ -195,6 +204,7 @@ export interface FileRouteTypes {
     | '/admin/maratonica'
     | '/admin/registro-web'
     | '/admin/testimonios'
+    | '/admin/usuarios'
     | '/reflexiones/$slug'
     | '/admin/'
     | '/reflexiones/'
@@ -214,6 +224,7 @@ export interface FileRouteTypes {
     | '/admin/maratonica'
     | '/admin/registro-web'
     | '/admin/testimonios'
+    | '/admin/usuarios'
     | '/reflexiones/$slug'
     | '/admin'
     | '/reflexiones'
@@ -234,6 +245,7 @@ export interface FileRouteTypes {
     | '/admin/maratonica'
     | '/admin/registro-web'
     | '/admin/testimonios'
+    | '/admin/usuarios'
     | '/reflexiones/$slug'
     | '/admin/'
     | '/reflexiones/'
@@ -341,6 +353,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ReflexionesSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/usuarios': {
+      id: '/admin/usuarios'
+      path: '/usuarios'
+      fullPath: '/admin/usuarios'
+      preLoaderRoute: typeof AdminUsuariosRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
     '/admin/testimonios': {
       id: '/admin/testimonios'
       path: '/testimonios'
@@ -391,6 +410,7 @@ interface AdminRouteRouteChildren {
   AdminMaratonicaRoute: typeof AdminMaratonicaRoute
   AdminRegistroWebRoute: typeof AdminRegistroWebRoute
   AdminTestimoniosRoute: typeof AdminTestimoniosRoute
+  AdminUsuariosRoute: typeof AdminUsuariosRoute
   AdminIndexRoute: typeof AdminIndexRoute
   AdminBlogsIdRoute: typeof AdminBlogsIdRoute
   AdminBlogsIndexRoute: typeof AdminBlogsIndexRoute
@@ -401,6 +421,7 @@ const AdminRouteRouteChildren: AdminRouteRouteChildren = {
   AdminMaratonicaRoute: AdminMaratonicaRoute,
   AdminRegistroWebRoute: AdminRegistroWebRoute,
   AdminTestimoniosRoute: AdminTestimoniosRoute,
+  AdminUsuariosRoute: AdminUsuariosRoute,
   AdminIndexRoute: AdminIndexRoute,
   AdminBlogsIdRoute: AdminBlogsIdRoute,
   AdminBlogsIndexRoute: AdminBlogsIndexRoute,
